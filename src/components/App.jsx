@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
@@ -42,6 +42,9 @@ export class App extends Component {
         this.setState({ loading: true });
         const dataFetch = await fetchData(this.state.query, this.state.page);
         this.setState({ data: dataFetch.data });
+        if (this.state.page === 1) {
+          return this.notify(dataFetch.data.totalHits);
+        }
       } catch (error) {
         this.setState({ error: true });
       } finally {
@@ -52,17 +55,18 @@ export class App extends Component {
 
   loadMore = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
-    console.log(this.state.page);
   };
 
   handleFormSubmit = query => {
     this.setState({ query });
   };
 
-  componentWillUnmount() {
-    this.setState(...this.state, ...this.stateInit);
-    console.log(this.prevState);
-  }
+  notify = totalHits =>
+    toast.success(`Found ${totalHits} images`, {
+      position: 'top-center',
+      autoClose: 1500,
+      theme: 'colored',
+    });
 
   render() {
     const {

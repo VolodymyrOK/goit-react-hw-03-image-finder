@@ -1,20 +1,9 @@
 import { nanoid } from 'nanoid';
-import { toast } from 'react-toastify';
 
 export const ImageGallery = ({ props }) => {
   const arr = props.data.hits;
   const totalHits = props.data.totalHits;
   console.log(props.page);
-
-  const notify = totalHits =>
-    toast.success(`Found ${totalHits} images`, {
-      position: 'top-center',
-      autoClose: 3000,
-      theme: 'colored',
-    });
-  if (props.page === 1) {
-    notify(totalHits);
-  }
 
   return (
     <div>

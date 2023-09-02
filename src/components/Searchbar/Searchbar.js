@@ -14,7 +14,7 @@ export class Searchbar extends Component {
   notify = () =>
     toast.error('💻 Enter data to search', {
       position: 'top-center',
-      autoClose: 3000,
+      autoClose: 1500,
       theme: 'colored',
     });
 
