@@ -37,6 +37,9 @@ export class Searchbar extends Component {
   render() {
     return (
       <SearchbarForm onSubmit={this.searchRequest}>
+        <SearchFormButton type="submit">
+          <ImSearch />
+        </SearchFormButton>
         <SearchInput
           type="text"
           autoComplete="off"
@@ -46,10 +49,6 @@ export class Searchbar extends Component {
           value={this.state.query}
           onChange={this.changeRequest}
         />
-
-        <SearchFormButton type="submit">
-          <ImSearch />
-        </SearchFormButton>
       </SearchbarForm>
     );
   }

@@ -9,10 +9,9 @@ export const SearchbarForm = styled.form`
   justify-content: center;
   align-items: center;
   min-height: 64px;
-  padding-right: 24px;
-  padding-left: 24px;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding: 12px 24px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
   background-color: ${({ theme: { colors } }) => colors.backgroundColor};
   color: ${({ theme: { colors } }) => colors.color};
   box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
@@ -22,13 +21,13 @@ export const SearchbarForm = styled.form`
 export const SearchInput = styled.input`
   font-size: 18px;
   display: flex;
-  padding: 8px;
+  padding: 8px 24px;
   align-items: center;
   width: 100%;
-  max-width: 450px;
+  max-width: 400px;
   background-color: #fff;
-  border-bottom-left-radius: 8px;
-  border-top-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
   border-color: transparent;
   overflow: hidden;
   outline: none;
@@ -42,8 +41,8 @@ export const SearchFormButton = styled.button`
   height: 41px;
   border-color: transparent;
   opacity: 1;
-  border-bottom-right-radius: 8px;
-  border-top-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px;
   transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   outline: none;

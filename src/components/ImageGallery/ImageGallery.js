@@ -6,7 +6,7 @@ export const ImageGallery = ({ props }) => {
   const arr = props.data.hits;
 
   return (
-    <div>
+    <>
       <ImageGalleryUl>
         {arr.map(item => (
           <ImageGalleryLi key={nanoid(4)}>
@@ -14,6 +14,6 @@ export const ImageGallery = ({ props }) => {
           </ImageGalleryLi>
         ))}
       </ImageGalleryUl>
-    </div>
+    </>
   );
 };
