@@ -1,6 +1,11 @@
 import { Component } from 'react';
 import { ImSearch } from 'react-icons/im';
 import { toast } from 'react-toastify';
+import {
+  SearchFormButton,
+  SearchInput,
+  SearchbarForm,
+} from './Searchbar.styled';
 
 export class Searchbar extends Component {
   state = {
@@ -12,7 +17,7 @@ export class Searchbar extends Component {
   };
 
   notify = () =>
-    toast.error('💻 Enter data to search', {
+    toast.info('💻 Enter data to search', {
       position: 'top-center',
       autoClose: 1500,
       theme: 'colored',
@@ -24,14 +29,15 @@ export class Searchbar extends Component {
       this.setState({ query: '' });
       return this.notify();
     }
-    this.props.onSubmit(this.state.query);
+    const queryExt = Date.now() + '/' + this.state.query.toLowerCase();
+    this.props.onSubmit(queryExt);
     this.setState({ query: '' });
   };
 
   render() {
     return (
-      <form onSubmit={this.searchRequest}>
-        <input
+      <SearchbarForm onSubmit={this.searchRequest}>
+        <SearchInput
           type="text"
           autoComplete="off"
           autoFocus
@@ -41,10 +47,10 @@ export class Searchbar extends Component {
           onChange={this.changeRequest}
         />
 
-        <button type="submit">
-          <ImSearch style={{ marginRight: 8 }} /> Search
-        </button>
-      </form>
+        <SearchFormButton type="submit">
+          <ImSearch />
+        </SearchFormButton>
+      </SearchbarForm>
     );
   }
 }

@@ -9,9 +9,10 @@ const SAFESEARCH = 'true';
 const PER_PAGE = 12;
 
 export const fetchData = async (query, page = 1) => {
+  const queryNew = query.slice(query.indexOf('/') + 1, query.length);
   const params = {
     key: KEY,
-    q: query,
+    q: queryNew,
     image_type: IMAGE_TYPE,
     orientation: ORIENTATION,
     safesearch: SAFESEARCH,

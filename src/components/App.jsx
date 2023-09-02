@@ -1,9 +1,10 @@
 import { Component } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { fetchData } from './Api/Api';
+import { Layout } from './App.styled';
 
 export class App extends Component {
   stateInit = {
@@ -42,9 +43,7 @@ export class App extends Component {
         this.setState({ loading: true });
         const dataFetch = await fetchData(this.state.query, this.state.page);
         this.setState({ data: dataFetch.data });
-        if (this.state.page === 1) {
-          return this.notify(dataFetch.data.totalHits);
-        }
+        if (this.state.page === 1) return this.notify(dataFetch.data.totalHits);
       } catch (error) {
         this.setState({ error: true });
       } finally {
@@ -61,12 +60,19 @@ export class App extends Component {
     this.setState({ query });
   };
 
-  notify = totalHits =>
-    toast.success(`Found ${totalHits} images`, {
-      position: 'top-center',
-      autoClose: 1500,
-      theme: 'colored',
-    });
+  notify = totalHits => {
+    totalHits
+      ? toast.success(`Found ${totalHits} images`, {
+          position: 'top-center',
+          autoClose: 1500,
+          theme: 'colored',
+        })
+      : toast.error(`Nothing found`, {
+          position: 'top-center',
+          autoClose: 1500,
+          theme: 'colored',
+        });
+  };
 
   render() {
     const {
@@ -78,7 +84,7 @@ export class App extends Component {
     const remainderPhoto = totalHits - page * this.state.per_page;
 
     return (
-      <div>
+      <Layout>
         <Searchbar onSubmit={this.handleFormSubmit} />
         {loading && <div>LOADING...</div>}
         {error && !loading && <div>OOPS! THERE WAS AN ERROR!</div>}
@@ -92,8 +98,7 @@ export class App extends Component {
             <button onClick={this.loadMore}>Load more</button>
           </>
         )}
-        <ToastContainer />
-      </div>
+      </Layout>
     );
   }
 }
