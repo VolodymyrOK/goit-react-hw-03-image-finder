@@ -20,7 +20,7 @@ export const fetchData = async (query, page = 1) => {
     page: page,
   };
   if (params.q !== '') {
-    const resp = axios.get('?', { params });
-    return resp;
+    const resp = await axios.get('?', { params });
+    return resp.data;
   }
 };

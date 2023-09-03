@@ -1,11 +1,11 @@
 import { Component } from 'react';
 import { ImSearch } from 'react-icons/im';
-import { toast } from 'react-toastify';
 import {
   SearchFormButton,
   SearchInput,
   SearchbarForm,
 } from './Searchbar.styled';
+import { MessageToast } from 'components/Messages/Messages';
 
 export class Searchbar extends Component {
   state = {
@@ -16,18 +16,12 @@ export class Searchbar extends Component {
     this.setState({ query: evt.currentTarget.value });
   };
 
-  notify = () =>
-    toast.info('💻 Enter data to search', {
-      position: 'top-center',
-      autoClose: 1500,
-      theme: 'colored',
-    });
-
   searchRequest = evt => {
     evt.preventDefault();
     if (!this.state.query.trim()) {
       this.setState({ query: '' });
-      return this.notify();
+      MessageToast('emptysearch', 'Enter data to Search');
+      return;
     }
     const queryExt = Date.now() + '/' + this.state.query.toLowerCase();
     this.props.onSubmit(queryExt);

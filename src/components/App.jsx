@@ -1,25 +1,22 @@
 import { Component } from 'react';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { animateScroll as scroll } from 'react-scroll';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { fetchData } from './Api/Api';
-import { Layout } from './App.styled';
+import { CountPages, Layout } from './App.styled';
 import { Loader } from './Loader/Loader';
 import { Button } from './Button/Button';
+import { MessageToast } from './Messages/Messages';
 
 export class App extends Component {
   state = {
-    query: null,
+    query: '',
     loading: false,
-    error: false,
     page: 1,
     per_page: 12,
-    data: {
-      hits: [],
-      total: null,
-      totalHits: null,
-    },
+    imgHits: [],
+    allImages: false,
+    totalHits: null,
   };
 
   async componentDidUpdate(prevProps, prevState) {
@@ -27,15 +24,37 @@ export class App extends Component {
       prevState.query !== this.state.query ||
       prevState.page !== this.state.page
     ) {
-      if (prevState.query !== this.state.query) this.setState({ page: 1 });
       try {
         this.setState({ loading: true });
         const dataFetch = await fetchData(this.state.query, this.state.page);
-        this.setState({ data: dataFetch.data });
-        if (this.state.page === 1)
-          return this.notify(dataFetch.data.totalHits, 'Nothing found');
+
+        if (dataFetch.hits.length === 0) {
+          MessageToast('errorfound', 'Nothing found');
+          this.setState(prevState => ({ imgHits: [] }));
+          return;
+        }
+
+        this.setState(prevState => ({
+          imgHits:
+            prevState.query === this.state.query
+              ? [...prevState.imgHits, ...dataFetch.hits]
+              : [...dataFetch.hits],
+          allImages:
+            dataFetch.totalHits ===
+            prevState.imgHits.length + dataFetch.hits.length,
+          totalHits: dataFetch.totalHits,
+        }));
+
+        if (
+          dataFetch.totalHits ===
+          prevState.imgHits.length + dataFetch.hits.length
+        )
+          MessageToast('foundok', `Search completed. There is nothing more.`);
+
+        if (prevState.query !== this.state.query)
+          MessageToast('foundok', `Found ${dataFetch.totalHits} images`);
       } catch (error) {
-        this.setState({ error: true });
+        MessageToast('errorloading', 'OOPS! There was an error!');
       } finally {
         this.setState({ loading: false });
       }
@@ -44,42 +63,33 @@ export class App extends Component {
 
   onloadMore = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
+
+    scroll.scrollMore(500);
   };
 
-  handleFormSubmit = query => {
-    this.setState({ query });
-  };
-
-  notify = (totalHits, message) => {
-    totalHits
-      ? toast.success(`Found ${totalHits} images`, {
-          position: 'top-center',
-          autoClose: 1500,
-          theme: 'colored',
-        })
-      : toast.error(`${message}`, {
-          position: 'top-center',
-          autoClose: 1500,
-          theme: 'colored',
-        });
+  handleFormSubmit = queryNew => {
+    this.setState({
+      query: queryNew,
+      imgHits: [],
+      page: 1,
+    });
   };
 
   render() {
-    const {
-      loading,
-      page,
-      data: { hits, totalHits },
-      error,
-    } = this.state;
-    const remainderPhoto = totalHits - page * this.state.per_page;
+    const { loading, imgHits, allImages, totalHits } = this.state;
+    console.log(imgHits.length + '/' + totalHits);
 
     return (
       <Layout>
         <Searchbar onSubmit={this.handleFormSubmit} />
+
+        <CountPages>{imgHits.length + '/' + totalHits}</CountPages>
+
         {loading && <Loader />}
-        {error && !loading && this.notify(0, 'OOPS! THERE WAS AN ERROR!')}
-        {hits.length > 0 && <ImageGallery props={this.state} />}
-        {(remainderPhoto > 0 || remainderPhoto > this.state.per_page) && (
+
+        {imgHits.length > 0 && <ImageGallery props={this.state} />}
+
+        {imgHits.length > 0 && !allImages && (
           <Button onLoadMore={this.onloadMore} />
         )}
       </Layout>

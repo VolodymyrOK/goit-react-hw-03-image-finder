@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { ToastContainer } from 'react-toastify';
+import { Toaster } from 'react-hot-toast';
 import { ThemeProvider } from 'styled-components';
 import { App } from 'components/App';
 import { Logo } from 'components/Logo/Logo';
@@ -11,7 +11,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <ThemeProvider theme={Theme}>
       <Logo />
       <App />
-      <ToastContainer />
+      <Toaster />
     </ThemeProvider>
   </React.StrictMode>
 );

@@ -54,3 +54,7 @@ export const SearchFormButton = styled.button`
     opacity: 0.6;
   }
 `;
+
+export const ToastCustom = styled.div`
+  background-color: blue;
+`;

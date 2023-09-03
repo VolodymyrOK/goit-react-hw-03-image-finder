@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const ButtonLoadMore = styled.button`
+  margin: 16px;
   padding: 8px 16px;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
