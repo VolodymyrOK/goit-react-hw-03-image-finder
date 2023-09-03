@@ -13,7 +13,7 @@ export const Loading = styled.div`
 `;
 
 export const CountPages = styled.div`
-  top: 30px;
+  top: 22px;
   margin-left: auto;
   margin-right: 20px;
   position: sticky;

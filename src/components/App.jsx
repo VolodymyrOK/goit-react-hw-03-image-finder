@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import { animateScroll as scroll } from 'react-scroll';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
@@ -105,7 +106,7 @@ export class App extends Component {
       <Layout>
         <Searchbar onSubmit={this.handleFormSubmit} />
 
-        {imgHits.length && (
+        {imgHits.length > 0 && (
           <CountPages>{imgHits.length + '/' + totalHits}</CountPages>
         )}
 
@@ -136,3 +137,18 @@ export class App extends Component {
     );
   }
 }
+
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
+ImageGallery.propTypes = {
+  props: PropTypes.object,
+  getLargeImgUrl: PropTypes.string,
+  toggleModal: PropTypes.func,
+};
+Button.propTypes = {
+  onLoadMore: PropTypes.func,
+};
+Modal.propTypes = {
+  onClose: PropTypes.func,
+};

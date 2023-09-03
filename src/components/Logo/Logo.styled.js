@@ -5,4 +5,6 @@ export const LogoWrapper = styled.div`
   justify-content: center;
   flex-wrap: wrap;
 `;
-export const LogoImg = styled.img``;
+export const LogoImg = styled.img`
+  height: 92px;
+`;

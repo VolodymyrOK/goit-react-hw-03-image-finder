@@ -9,7 +9,7 @@ export const SearchbarForm = styled.form`
   justify-content: center;
   align-items: center;
   min-height: 64px;
-  padding: 12px 24px;
+  padding: 16px 24px;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   background-color: ${({ theme: { colors } }) => colors.backgroundColor};
@@ -21,7 +21,7 @@ export const SearchbarForm = styled.form`
 export const SearchInput = styled.input`
   font-size: 18px;
   display: flex;
-  padding: 8px 24px;
+  padding: 8px 12px;
   align-items: center;
   width: 100%;
   max-width: 400px;
