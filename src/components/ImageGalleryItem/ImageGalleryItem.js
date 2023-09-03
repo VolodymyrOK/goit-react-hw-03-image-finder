@@ -1,16 +1,21 @@
-import {
-  ImageGalleryItemIMG,
-  ImageGalleryItemLink,
-} from './ImageGalleryItem.styled';
+import { ImageGalleryItemIMG } from './ImageGalleryItem.styled';
 
 export const ImageGalleryItem = ({
   item: { webformatURL, largeImageURL, tags },
+  getLargeImgUrl,
+  toggleModal,
 }) => {
   return (
     <>
-      <ImageGalleryItemLink href={largeImageURL}>
-        <ImageGalleryItemIMG src={webformatURL} alt={tags} loading="lazy" />
-      </ImageGalleryItemLink>
+      <ImageGalleryItemIMG
+        src={webformatURL}
+        alt={tags}
+        loading="lazy"
+        onClick={() => {
+          getLargeImgUrl(largeImageURL);
+          toggleModal();
+        }}
+      />
     </>
   );
 };

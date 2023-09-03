@@ -1,13 +1,17 @@
 import { ImageGalleryLi, ImageGalleryUl } from './ImageGallery.styled';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 
-export const ImageGallery = ({ props }) => {
+export const ImageGallery = ({ props, getLargeImgUrl, toggleModal }) => {
   return (
     <>
       <ImageGalleryUl>
         {props.imgHits.map(item => (
           <ImageGalleryLi key={item.id}>
-            <ImageGalleryItem item={item} />
+            <ImageGalleryItem
+              item={item}
+              getLargeImgUrl={getLargeImgUrl}
+              toggleModal={toggleModal}
+            />
           </ImageGalleryLi>
         ))}
       </ImageGalleryUl>

@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-export const ImageGalleryItemLink = styled.a``;
-
 export const ImageGalleryItemIMG = styled.img`
   width: 100%;
   height: 260px;

@@ -7,6 +7,8 @@ import { CountPages, Layout } from './App.styled';
 import { Loader } from './Loader/Loader';
 import { Button } from './Button/Button';
 import { MessageToast } from './Messages/Messages';
+import Modal from './Modal/Modal';
+import { ImageModal } from './Modal/Modal.styled';
 
 export class App extends Component {
   state = {
@@ -17,6 +19,9 @@ export class App extends Component {
     imgHits: [],
     allImages: false,
     totalHits: null,
+    showModal: false,
+    largeImgURL: '',
+    largeTags: '',
   };
 
   async componentDidUpdate(prevProps, prevState) {
@@ -75,22 +80,57 @@ export class App extends Component {
     });
   };
 
+  getlargeImgURL = url => {
+    this.setState({
+      largeImgURL: url,
+    });
+  };
+
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({ showModal: !showModal }));
+  };
+
   render() {
-    const { loading, imgHits, allImages, totalHits } = this.state;
-    console.log(imgHits.length + '/' + totalHits);
+    const {
+      loading,
+      imgHits,
+      allImages,
+      totalHits,
+      showModal,
+      largeImgURL,
+      largeTags,
+    } = this.state;
 
     return (
       <Layout>
         <Searchbar onSubmit={this.handleFormSubmit} />
 
-        <CountPages>{imgHits.length + '/' + totalHits}</CountPages>
+        {imgHits.length && (
+          <CountPages>{imgHits.length + '/' + totalHits}</CountPages>
+        )}
 
         {loading && <Loader />}
 
-        {imgHits.length > 0 && <ImageGallery props={this.state} />}
+        {imgHits.length > 0 && (
+          <ImageGallery
+            props={this.state}
+            getLargeImgUrl={this.getlargeImgURL}
+            toggleModal={this.toggleModal}
+          />
+        )}
 
         {imgHits.length > 0 && !allImages && (
           <Button onLoadMore={this.onloadMore} />
+        )}
+
+        {showModal && (
+          <Modal onClose={this.toggleModal}>
+            <ImageModal
+              src={largeImgURL}
+              alt={largeTags}
+              title="Press Esc to exit"
+            />
+          </Modal>
         )}
       </Layout>
     );
