@@ -5,7 +5,9 @@ import { ButtonLoadMore } from './Button.styled';
 export class Button extends Component {
   render() {
     return (
-      <ButtonLoadMore onClick={this.props.onLoadMore}>Load more</ButtonLoadMore>
+      <ButtonLoadMore type="button" onClick={this.props.onLoadMore}>
+        Load more
+      </ButtonLoadMore>
     );
   }
 }

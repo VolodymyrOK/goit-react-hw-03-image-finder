@@ -3,12 +3,14 @@ import { animateScroll as scroll } from 'react-scroll';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { fetchData } from './Api/Api';
-import { CountPages, Layout } from './App.styled';
+import { ButtonUp, CountPages, Layout } from './App.styled';
 import { Loader } from './Loader/Loader';
 import { Button } from './Button/Button';
 import { MessageToast } from './Messages/Messages';
 import Modal from './Modal/Modal';
 import { ImageModal } from './Modal/Modal.styled';
+
+import { ImPointUp } from 'react-icons/im';
 
 export class App extends Component {
   state = {
@@ -21,6 +23,7 @@ export class App extends Component {
     showModal: false,
     largeImgURL: '',
     largeTags: '',
+    isScrollUp: false,
   };
 
   async componentDidUpdate(prevProps, prevState) {
@@ -38,6 +41,7 @@ export class App extends Component {
         this.setState(prevState => ({
           imgHits: [...prevState.imgHits, ...dataFetch.hits],
           totalHits: dataFetch.totalHits,
+          isScrollUp: true,
         }));
 
         if (
@@ -71,6 +75,11 @@ export class App extends Component {
     });
   };
 
+  onScrollUp = () => {
+    scroll.scrollToTop();
+    this.setState({ isScrollUp: false });
+  };
+
   getlargeImgURL = url => {
     this.setState({
       largeImgURL: url,
@@ -82,8 +91,15 @@ export class App extends Component {
   };
 
   render() {
-    const { loading, imgHits, totalHits, showModal, largeImgURL, largeTags } =
-      this.state;
+    const {
+      loading,
+      imgHits,
+      totalHits,
+      showModal,
+      largeImgURL,
+      largeTags,
+      isScrollUp,
+    } = this.state;
 
     return (
       <Layout>
@@ -107,6 +123,12 @@ export class App extends Component {
           <Button onLoadMore={this.onloadMore} />
         )}
 
+        {isScrollUp && (
+          <ButtonUp type="button" onClick={this.onScrollUp}>
+            <ImPointUp />
+          </ButtonUp>
+        )}
+
         {showModal && (
           <Modal onClose={this.toggleModal}>
             <ImageModal
@@ -120,7 +142,3 @@ export class App extends Component {
     );
   }
 }
-
-
-
-

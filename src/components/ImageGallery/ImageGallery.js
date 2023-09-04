@@ -22,6 +22,6 @@ export const ImageGallery = ({ props, getLargeImgUrl, toggleModal }) => {
 
 ImageGallery.propTypes = {
   props: PropTypes.object,
-  getLargeImgUrl: PropTypes.string,
+  getLargeImgUrl: PropTypes.func,
   toggleModal: PropTypes.func,
 };
