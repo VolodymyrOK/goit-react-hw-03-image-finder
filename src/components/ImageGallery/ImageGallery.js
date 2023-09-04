@@ -20,14 +20,8 @@ export const ImageGallery = ({ props, getLargeImgUrl, toggleModal }) => {
   );
 };
 
-ImageGalleryItem.propType = {
-  item: PropTypes.arrayOf(
-    PropTypes.shape({
-      webformatURL: PropTypes.string,
-      largeImageURL: PropTypes.string,
-      tags: PropTypes.string,
-    })
-  ),
-  getLargeImgUrl: PropTypes.func,
+ImageGallery.propTypes = {
+  props: PropTypes.object,
+  getLargeImgUrl: PropTypes.string,
   toggleModal: PropTypes.func,
 };

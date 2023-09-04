@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import PropTypes from 'prop-types';
 import { animateScroll as scroll } from 'react-scroll';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
@@ -18,36 +17,26 @@ export class App extends Component {
     page: 1,
     per_page: 12,
     imgHits: [],
-    allImages: false,
-    totalHits: null,
+    totalHits: 0,
     showModal: false,
     largeImgURL: '',
     largeTags: '',
   };
 
   async componentDidUpdate(prevProps, prevState) {
-    if (
-      prevState.query !== this.state.query ||
-      prevState.page !== this.state.page
-    ) {
+    const { page, query } = this.state;
+    if (prevState.query !== query || prevState.page !== page) {
       try {
         this.setState({ loading: true });
-        const dataFetch = await fetchData(this.state.query, this.state.page);
+        const dataFetch = await fetchData(query, page);
 
-        if (dataFetch.hits.length === 0) {
+        if (dataFetch.totalHits === 0) {
           MessageToast('errorfound', 'Nothing found');
-          this.setState(prevState => ({ imgHits: [] }));
           return;
         }
 
         this.setState(prevState => ({
-          imgHits:
-            prevState.query === this.state.query
-              ? [...prevState.imgHits, ...dataFetch.hits]
-              : [...dataFetch.hits],
-          allImages:
-            dataFetch.totalHits ===
-            prevState.imgHits.length + dataFetch.hits.length,
+          imgHits: [...prevState.imgHits, ...dataFetch.hits],
           totalHits: dataFetch.totalHits,
         }));
 
@@ -57,7 +46,7 @@ export class App extends Component {
         )
           MessageToast('foundok', `Search completed. There is nothing more.`);
 
-        if (prevState.query !== this.state.query)
+        if (prevState.query !== query)
           MessageToast('foundok', `Found ${dataFetch.totalHits} images`);
       } catch (error) {
         MessageToast('errorloading', 'OOPS! There was an error!');
@@ -78,6 +67,7 @@ export class App extends Component {
       query: queryNew,
       imgHits: [],
       page: 1,
+      totalHits: 0,
     });
   };
 
@@ -92,15 +82,8 @@ export class App extends Component {
   };
 
   render() {
-    const {
-      loading,
-      imgHits,
-      allImages,
-      totalHits,
-      showModal,
-      largeImgURL,
-      largeTags,
-    } = this.state;
+    const { loading, imgHits, totalHits, showModal, largeImgURL, largeTags } =
+      this.state;
 
     return (
       <Layout>
@@ -120,7 +103,7 @@ export class App extends Component {
           />
         )}
 
-        {imgHits.length > 0 && !allImages && (
+        {totalHits !== imgHits.length && !loading && (
           <Button onLoadMore={this.onloadMore} />
         )}
 
@@ -138,17 +121,6 @@ export class App extends Component {
   }
 }
 
-Searchbar.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
-ImageGallery.propTypes = {
-  props: PropTypes.object,
-  getLargeImgUrl: PropTypes.string,
-  toggleModal: PropTypes.func,
-};
-Button.propTypes = {
-  onLoadMore: PropTypes.func,
-};
-Modal.propTypes = {
-  onClose: PropTypes.func,
-};
+
+
+

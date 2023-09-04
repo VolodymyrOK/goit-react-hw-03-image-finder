@@ -5,8 +5,8 @@ import images from '../../images/images.png';
 export const Logo = () => {
   return (
     <LogoWrapper>
-      <LogoImg class="search-img" src={search} alt="Logo" />
-      <LogoImg class="search-img" src={images} alt="Logo" />
+      <LogoImg src={search} alt="Logo" />
+      <LogoImg src={images} alt="Logo" />
     </LogoWrapper>
   );
 };
