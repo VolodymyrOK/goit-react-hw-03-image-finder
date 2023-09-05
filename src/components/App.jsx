@@ -41,7 +41,6 @@ export class App extends Component {
         this.setState(prevState => ({
           imgHits: [...prevState.imgHits, ...dataFetch.hits],
           totalHits: dataFetch.totalHits,
-          isScrollUp: true,
         }));
 
         if (
@@ -62,7 +61,6 @@ export class App extends Component {
 
   onloadMore = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
-
     scroll.scrollMore(500);
   };
 
@@ -78,6 +76,14 @@ export class App extends Component {
   onScrollUp = () => {
     scroll.scrollToTop();
     this.setState({ isScrollUp: false });
+  };
+
+  onScroll = () => {
+    if (window.scrollY > 300) {
+      this.setState({ isScrollUp: true });
+    } else {
+      this.setState({ isScrollUp: false });
+    }
   };
 
   getlargeImgURL = url => {
@@ -102,7 +108,7 @@ export class App extends Component {
     } = this.state;
 
     return (
-      <Layout>
+      <Layout onWheel={this.onScroll}>
         <Searchbar onSubmit={this.handleFormSubmit} />
 
         {imgHits.length > 0 && (

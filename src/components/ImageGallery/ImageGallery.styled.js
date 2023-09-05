@@ -14,4 +14,7 @@ export const ImageGalleryUl = styled.ul`
   text-align: center;
 `;
 
-export const ImageGalleryLi = styled.li``;
+export const ImageGalleryLi = styled.li`
+  display: flex;
+  justify-content: 'center';
+`;

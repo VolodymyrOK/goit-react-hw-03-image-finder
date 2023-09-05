@@ -12,9 +12,6 @@ export const Overlay = styled.div`
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 1200;
   cursor: pointer;
-  &body {
-    overflow-y: hidden;
-  }
 `;
 
 export const ModalWindow = styled.div`
