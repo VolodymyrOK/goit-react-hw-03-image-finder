@@ -9,12 +9,11 @@ export default class Modal extends Component {
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeyDown);
     document.body.style.overflowY = 'hidden';
-    document.body.style.maxHeight = '100vh';
   }
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handleKeyDown);
-    document.body.style.overflowY = 'auto';
+    document.body.removeAttribute('style');
   }
 
   handleKeyDown = evt => {
